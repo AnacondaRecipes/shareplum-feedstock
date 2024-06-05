@@ -6,8 +6,9 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/SharePlum-{{ version }}.tar.gz
-  sha256: 07a45d48920450092e56c33846fe17768d4611dc83a7314ef0140e57dee52966
+  # Use GH archive for tests and LICENSE.txt
+  url: https://github.com/jasonrollins/shareplum/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 84f31c21ea859ccdf47f45b382e9b12f28514186ce5aa4bd1db372f3e52abe0f
 
 build:
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
@@ -26,17 +27,20 @@ requirements:
     - requests_ntlm
     - requests-toolbelt
 
-# Upstream Tests require a test sharepoint site (and therefore network
-# access too!).  See
-# https://github.com/jasonrollins/shareplum/blob/master/README.rst#unit-tests
-
 test:
+  source_files:
+    - tests
   imports:
     - shareplum
-  commands:
-    - pip check
   requires:
     - pip
+    - pytest
+  commands:
+    - pip check
+    # Upstream Tests require a test sharepoint site (and therefore
+    # network access too!).  See
+    # https://github.com/jasonrollins/shareplum/blob/master/README.rst#unit-tests
+    - pytest -v tests/test_list_parse.py
 
 about:
   home: https://github.com/jasonrollins/shareplum
