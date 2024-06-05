@@ -26,6 +26,10 @@ requirements:
     - requests_ntlm
     - requests-toolbelt
 
+# Upstream Tests require a test sharepoint site (and therefore network
+# access too!).  See
+# https://github.com/jasonrollins/shareplum/blob/master/README.rst#unit-tests
+
 test:
   imports:
     - shareplum
