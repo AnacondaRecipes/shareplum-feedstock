@@ -1,0 +1,62 @@
+{% set name = "shareplum" %}
+{% set version = "0.5.1" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  # Use GH archive for tests and LICENSE.txt
+  url: https://github.com/jasonrollins/shareplum/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 84f31c21ea859ccdf47f45b382e9b12f28514186ce5aa4bd1db372f3e52abe0f
+
+build:
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+
+requirements:
+  host:
+    - python
+    - pip
+    - setuptools
+    - wheel
+  run:
+    - python
+    - lxml
+    - requests
+    - requests_ntlm
+    - requests-toolbelt
+
+test:
+  source_files:
+    - tests
+  imports:
+    - shareplum
+  requires:
+    - pip
+    - pytest
+  commands:
+    - pip check
+    # Upstream Tests require a test sharepoint site (and therefore
+    # network access too!).  See
+    # https://github.com/jasonrollins/shareplum/blob/master/README.rst#unit-tests
+    - pytest -v tests/test_list_parse.py
+
+about:
+  home: https://github.com/jasonrollins/shareplum
+  summary: Python SharePoint Library
+  description: |
+    SharePlum is an easier way to work with SharePoint services. It
+    handles all of the messy parts of dealing with SharePoint and
+    allows you to write clean and Pythonic code.
+  license: MIT
+  license_file: LICENSE.txt
+  license_family: MIT
+  doc_url: https://shareplum.readthedocs.io
+  # NB This repository has been archived by the owner on May 15,
+  # 2023. It is now read-only.
+  dev_url: https://github.com/jasonrollins/shareplum
+
+extra:
+  recipe-maintainers:
+    - ifitchet
