@@ -58,5 +58,10 @@ about:
   dev_url: https://github.com/jasonrollins/shareplum
 
 extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/52147
+    reason: Client request
+    recipe-maintainers:
+      - ianaobi
   recipe-maintainers:
     - ifitchet
